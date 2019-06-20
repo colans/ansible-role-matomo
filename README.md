@@ -1,12 +1,15 @@
-Role Name
-=========
+Consensus Enterprises' Matomo
+=============================
 
-A brief description of the role goes here.
+Consensus Enterprises' Ansible role for provisioning Matomo (formerly known as "Piwik").
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+To install Matomo with this Ansible role, your host must be running a Debian-based OS and have some software already installed:
+
+* The Nginx Web server
+* MySQL (version 5.5 or greater) or MariaDB
 
 Role Variables
 --------------
@@ -30,9 +33,9 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+GNU AGPLv3
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Written by Colan Schwartz and other folks at Consensus Enterprises.  To contact us, please use our Web form at https://consensus.enterprises/#contact .
