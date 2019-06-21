@@ -1,2 +1,19 @@
 ---
 # defaults file for ansible-role-matomo
+
+matomo_db:
+  host: 127.0.0.1
+  name: matomo
+  user: matomo
+  password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+  table_prefix: ""
+
+matomo_salt:
+matomo_domain: matomo.example.com
+matomo_hosted_site_domain: example.com
+matomo_path:
+
+#  URLs
+matomo_url: "https://{{ matomo_domain }}/"
+matomo_hosted_site_url: "https://{{ matomo_hosted_site_domain }}/"
+
