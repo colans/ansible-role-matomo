@@ -6,10 +6,10 @@ Consensus Enterprises' Ansible role for provisioning Matomo (formerly known as "
 Requirements
 ------------
 
-To install Matomo with this Ansible role, your host must be running a Debian-based OS and have some software already installed:
-
+* A Debian-based OS (e.g. Ubuntu)
 * The Nginx Web server
 * MySQL (version 5.5 or greater) or MariaDB
+* A DNS record pointing to the instance (e.g. `matomo.example.com`)
 
 Role Variables
 --------------
