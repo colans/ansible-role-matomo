@@ -27,6 +27,7 @@ matomo_hosted_site:
   name: "Example"
   domain: "example.com"
   url: "https://{{ matomo_hosted_site_domain }}/"
+  timezone: "{{ matomo_timezone }}"
   ecommerce: 0
   currency: "USD"
 

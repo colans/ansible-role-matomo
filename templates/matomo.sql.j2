@@ -459,11 +459,11 @@ LOCK TABLES `option` WRITE;
 /*!40000 ALTER TABLE `option` DISABLE KEYS */;
 INSERT INTO `option` VALUES ('install_version','3.9.1',0);
 INSERT INTO `option` VALUES ('MobileMessaging_DelegatedManagement','false',0);
-INSERT INTO `option` VALUES ('piwikUrl','{{ https://matomo.example.com/ }}',1);
+INSERT INTO `option` VALUES ('piwikUrl','{{ matomo_url }}',1);
 INSERT INTO `option` VALUES ('PrivacyManager.doNotTrackEnabled','1',0);
 INSERT INTO `option` VALUES ('PrivacyManager.ipAnonymizerEnabled','1',0);
-INSERT INTO `option` VALUES ('SitesManager_DefaultTimezone','{{ America/Toronto }}',0);
-INSERT INTO `option` VALUES ('useridsalt','{{ PH$pNOPngcj_UISOGUSFPHt4tvuCoP4tEVHwZO$9 }}',1);
+INSERT INTO `option` VALUES ('SitesManager_DefaultTimezone','{{ matomo_timezone }}',0);
+INSERT INTO `option` VALUES ('useridsalt','{{ matomo_useridsalt }}',1);
 INSERT INTO `option` VALUES ('version_Actions','3.9.1',1);
 INSERT INTO `option` VALUES ('version_Annotations','3.9.1',1);
 INSERT INTO `option` VALUES ('version_API','3.9.1',1);
@@ -840,15 +840,15 @@ LOCK TABLES `site` WRITE;
 /*!40000 ALTER TABLE `site` DISABLE KEYS */;
 INSERT INTO `site` VALUES (
   1,
-  '{{ Example Site }}',
-  '{{ http://example.com }}',
+  '{{ matomo_hosted_site['name'] }}',
+  '{{ matomo_hosted_site['url'] }}',
   '{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}',
-  {{ 0 }},
+  {{ matomo_hosted_site['ecommerce'] }},
   1,
   '',
   '',
-  '{{ America/Toronto }}',
-  '{{ USD }}',
+  '{{ matomo_hosted_site['timezone'] }}',
+  '{{ matomo_hosted_site['currency'] }}',
   0,
   '',
   '',
@@ -856,7 +856,7 @@ INSERT INTO `site` VALUES (
   '',
   'website',
   0,
-  '{{ exampleuser }}'
+  '{{ matomo_superuser['name'] }}'
 );
 /*!40000 ALTER TABLE `site` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -990,7 +990,7 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES ('anonymous','','anonymous','anonymous@example.org','','anonymous',0,'{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}','{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}');
-INSERT INTO `user` VALUES ('{{ exampleuser }}','{{ $2y$10$2Ad01XGFMJhxjRclb/QoeOw0WbhJnaMaqSBsMNVTYAwdMROpcCWaC }}','{{ exampleuser }}','{{ mail@example.com }}','','{{ 8749e98d81a42b5886b1ff2c78067ef5 }}',1,'{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}','{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}');
+INSERT INTO `user` VALUES ('{{ matomo_superuser['name'] }}','{{ matomo_superuser['password'] }}','{{ matomo_superuser['alias'] }}','{{ matomo_superuser['email'] }}','','{{ matomo_superuser['token_auth'] }}',1,'{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}','{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -12,14 +12,14 @@
 server {
     listen [::]:80; # remove this if you don't want Matomo to be reachable from IPv6
     listen 80;
-    server_name {{ matomo.example.com }};
+    server_name {{ matomo_domain }};
     # Redirect all HTTP requests to HTTPS with a 301 Moved Permanently response.
     return 301 https://$host$request_uri;
 }
 server {
     listen [::]:443 ssl http2; # remove this if you don't want Matomo to be reachable from IPv6
     listen 443 ssl http2;
-    server_name {{ matomo.example.com }}; # list all domains Matomo should be reachable from
+    server_name {{ matomo_domain }}; # list all domains Matomo should be reachable from
     access_log /var/log/nginx/matomo.access.log;
     error_log /var/log/nginx/matomo.error.log;
 
@@ -28,14 +28,14 @@ server {
     #add_header Strict-Transport-Security max-age=15768000 always;
 
     ## replace with your SSL certificate
-    ssl_certificate /etc/letsencrypt/live/{{ matomo.example.com }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ matomo.example.com }}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ matomo_domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ matomo_domain }}/privkey.pem;
 
     add_header Referrer-Policy origin always; # make sure outgoing links don't show the URL to the Matomo instance
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
 
-    root {{ /usr/share/matomo/ }}; # replace with path to your matomo instance
+    root {{ matomo_path }}; # replace with path to your matomo instance
 
     index index.php;
 
