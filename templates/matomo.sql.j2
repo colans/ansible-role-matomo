@@ -18,6 +18,7 @@
 --   * `sudo -H mysqldump --skip-extended-insert matomo > /tmp/matomo.sql`
 -- 4. Replace hard-coded values with variables.
 -- 5. Delete any records in the `session` table.
+-- 6. Add line breaks between inserted values in the `site` table.
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -837,7 +838,26 @@ CREATE TABLE `site` (
 
 LOCK TABLES `site` WRITE;
 /*!40000 ALTER TABLE `site` DISABLE KEYS */;
-INSERT INTO `site` VALUES (1,'{{ Example Site }}','{{ http://example.com }}','{{ 2019-06-20 14:58:41 }}',{{ 0 }},1,'','','{{ America/Toronto }}','{{ USD }}',0,'','','','','website',0,'{{ exampleuser }}');
+INSERT INTO `site` VALUES (
+  1,
+  '{{ Example Site }}',
+  '{{ http://example.com }}',
+  '{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}',
+  {{ 0 }},
+  1,
+  '',
+  '',
+  '{{ America/Toronto }}',
+  '{{ USD }}',
+  0,
+  '',
+  '',
+  '',
+  '',
+  'website',
+  0,
+  '{{ exampleuser }}'
+);
 /*!40000 ALTER TABLE `site` ENABLE KEYS */;
 UNLOCK TABLES;
 
