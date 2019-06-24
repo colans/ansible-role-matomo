@@ -1,19 +1,40 @@
 ---
 # defaults file for ansible-role-matomo
 
+# Architecture
+matomo_max_int: "{{ '9223372036854775807' if ansible_facts['ansible_userspace_bits'] == '64' else '2147483647' }}"
+
+# General
+matomo_domain: "matomo.example.com"
+matomo_url: "https://{{ matomo_domain }}/"
+matomo_path: "/usr/share/matomo/"
+matomo_timezone: "America/Toronto"
+
+# Database
 matomo_db:
-  host: 127.0.0.1
-  name: matomo
-  user: matomo
+  host: "127.0.0.1"
+  name: "matomo"
+  user: "matomo"
   password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
   table_prefix: ""
 
-matomo_salt:
-matomo_domain: matomo.example.com
-matomo_hosted_site_domain: example.com
-matomo_path:
+# Salts
+matomo_salt: "{{ lookup('vars', 'matomo_max_int') | random | to_uuid | hash('md5') }}"
+matomo_useridsalt: "{{ lookup('password', '/dev/null length=40') }}"
 
-#  URLs
-matomo_url: "https://{{ matomo_domain }}/"
-matomo_hosted_site_url: "https://{{ matomo_hosted_site_domain }}/"
+# Hosted site
+matomo_hosted_site:
+  name: "Example"
+  domain: "example.com"
+  url: "https://{{ matomo_hosted_site_domain }}/"
+  ecommerce: 0
+  currency: "USD"
 
+# Superuser
+matomo_superuser:
+  name: "admin"
+  password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+  alias: "{{ matomo_superuser_name }}"
+  email: "mail@example.com"
+  # As per https://github.com/matomo-org/matomo/blob/3.x-dev/plugins/UsersManager/API.php#L1317
+  token_auth: "{{ lookup('vars', 'matomo_superuser.name') ~ lookup('vars', 'ansible_date_time.iso8601_micro') ~ lookup('vars', 'matomo_superuser.password') ~ lookup('vars', 'matomo_salt') | hash('md5') }}"
