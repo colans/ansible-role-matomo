@@ -33,7 +33,7 @@ matomo_db:
   table_prefix: ""
 
 # Salts
-matomo_salt: "{{ lookup('vars', 'matomo_max_int') | random | to_uuid | hash('md5') }}"
+matomo_salt: "{{ lookup('vars', 'matomo_max_int') | random | to_uuid | hash('bcrypt') }}"
 matomo_useridsalt: "{{ lookup('password', '/dev/null length=40') }}"
 
 # Hosted site
@@ -53,4 +53,4 @@ matomo_superuser:
   alias: "{{ matomo_superuser_name }}"
   email: "operations@example.com"
   # As per https://github.com/matomo-org/matomo/blob/3.x-dev/plugins/UsersManager/API.php#L1317
-  token_auth: "{{ lookup('vars', 'matomo_superuser.name') ~ lookup('vars', 'ansible_date_time.iso8601_micro') ~ lookup('vars', 'matomo_superuser.password') ~ lookup('vars', 'matomo_salt') | hash('md5') }}"
+  token_auth: "{{ lookup('vars', 'matomo_superuser.name') ~ lookup('vars', 'ansible_date_time.iso8601_micro') ~ lookup('vars', 'matomo_superuser.password') ~ lookup('vars', 'matomo_salt') | hash('bcrypt') }}"
