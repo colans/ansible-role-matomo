@@ -6,9 +6,23 @@ matomo_max_int: "{{ '9223372036854775807' if ansible_facts['ansible_userspace_bi
 
 # General
 matomo_domain: "matomo.example.com"
-matomo_url: "https://{{ matomo_domain }}/"
-matomo_path: "/usr/share/matomo/"
+matomo_protocol: "https"
+matomo_url: "{{ matomo_protocol }}://{{ matomo_domain }}/"
 matomo_timezone: "America/Toronto"
+matomo_https_certificate_email: "tech@example.com"
+
+## Paths
+matomo_path:
+  docroot: "/usr/share/matomo/"
+  config: "/etc/matomo/"
+
+# Web configuration
+matomo_web_config:
+  dir_main: "/etc/nginx"
+  dir_available: "{{ matomo_web_config['dir_main'] }}/sites-available"
+  dir_enabled: "{{ matomo_web_config['dir_main']}}/sites-enabled"
+  file_regular: "{{ matomo_web_config['dir_available'] }}/matomo.conf"
+  file_link: "{{ matomo_web_config['dir_enabled'] }}/matomo.conf"
 
 # Database
 matomo_db:
@@ -26,7 +40,8 @@ matomo_useridsalt: "{{ lookup('password', '/dev/null length=40') }}"
 matomo_hosted_site:
   name: "Example"
   domain: "example.com"
-  url: "https://{{ matomo_hosted_site_domain }}/"
+  protocol: "https"
+  url: "{{ matomo_hosted_site['protocol'] }}://{{ matomo_hosted_site_domain }}/"
   timezone: "{{ matomo_timezone }}"
   ecommerce: 0
   currency: "USD"
@@ -36,6 +51,6 @@ matomo_superuser:
   name: "admin"
   password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
   alias: "{{ matomo_superuser_name }}"
-  email: "mail@example.com"
+  email: "operations@example.com"
   # As per https://github.com/matomo-org/matomo/blob/3.x-dev/plugins/UsersManager/API.php#L1317
   token_auth: "{{ lookup('vars', 'matomo_superuser.name') ~ lookup('vars', 'ansible_date_time.iso8601_micro') ~ lookup('vars', 'matomo_superuser.password') ~ lookup('vars', 'matomo_salt') | hash('md5') }}"

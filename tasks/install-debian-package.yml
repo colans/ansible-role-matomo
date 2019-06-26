@@ -1,4 +1,27 @@
 ---
 # Debian package installer
 
-- name: Do something
+# Originally from https://mackuba.eu/2019/02/02/setting-up-piwik/
+
+- name: "Load the Matomo apt repository key"
+  apt_key:
+    id: 0d7c880f6c838bba2d02817dcacfc97fc538b1ebcdb41c3106595265c0d371d4
+    url: https://debian.matomo.org/repository.gpg
+
+- name: "Add the Matomo repository to apt"
+  apt_repository: repo="deb https://debian.matomo.org/ piwik main"
+
+- name: "Enable automatic upgrades in debconf"
+  debconf:
+    name: matomo
+    question: matomo/automatic-upgrade
+    value: true
+    vtype: boolean
+
+- name: "Install Matomo apt package"
+  apt:
+    name: matomo
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+    install_recommends: no

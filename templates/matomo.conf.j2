@@ -35,7 +35,7 @@ server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
 
-    root {{ matomo_path }}; # replace with path to your matomo instance
+    root {{ matomo_path['docroot'] }}; # replace with path to your matomo instance
 
     index index.php;
 

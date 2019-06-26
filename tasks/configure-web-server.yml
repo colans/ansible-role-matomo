@@ -1,4 +1,18 @@
 ---
 # Web server configurator
 
-- name: Do something
+- name: Inject the Matomo site's Nginx configuration
+  template:
+    src: "matomo.conf.j2"
+    dest: "{{ matomo_web_config['dir_available'] }}"
+    owner: "root"
+    group: "root"
+    mode: "preserve"
+    force: no
+
+- name: Enable the site
+  file:
+    src: {{ matomo_web_config['file_regular'] }}
+    dest: {{ matomo_web_config['file_link'] }}
+    state: link
+  notify: "(Handler: All OSs) Reload NGINX"

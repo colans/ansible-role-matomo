@@ -1,4 +1,11 @@
 ---
 # Application configurator
 
-- name: Do something
+- name: Inject Matomo's configuration file
+  template:
+    src: "config.ini.php.j2"
+    dest: "{{ matomo_path['config'] }}"
+    owner: "www-data"
+    group: "www-data"
+    mode: "preserve"
+    force: no
