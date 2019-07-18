@@ -20,7 +20,7 @@ matomo_path:
 matomo_web_config:
   dir_main: "/etc/nginx"
   dir_available: "{{ matomo_web_config['dir_main'] }}/sites-available"
-  dir_enabled: "{{ matomo_web_config['dir_main']}}/sites-enabled"
+  dir_enabled: "{{ matomo_web_config['dir_main'] }}/sites-enabled"
   file_regular: "{{ matomo_web_config['dir_available'] }}/matomo.conf"
   file_link: "{{ matomo_web_config['dir_enabled'] }}/matomo.conf"
 
