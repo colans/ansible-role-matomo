@@ -12,7 +12,7 @@
 
 - name: Enable the site
   file:
-    src: {{ matomo_web_config['file_regular'] }}
-    dest: {{ matomo_web_config['file_link'] }}
+    src: "{{ matomo_web_config['file_regular'] }}"
+    dest: "{{ matomo_web_config['file_link'] }}"
     state: link
   notify: "(Handler: All OSs) Reload NGINX"
