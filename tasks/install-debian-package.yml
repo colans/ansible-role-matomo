@@ -5,8 +5,8 @@
 
 - name: "Load the Matomo apt repository key"
   apt_key:
-    id: 0d7c880f6c838bba2d02817dcacfc97fc538b1ebcdb41c3106595265c0d371d4
-    url: https://debian.matomo.org/repository.gpg
+    id: 1FD752571FE36FF23F78F91B81E2E78B66FED89E
+    url: http://debian.matomo.org/repository.gpg
 
 - name: "Add the Matomo repository to apt"
   apt_repository: repo="deb https://debian.matomo.org/ piwik main"
