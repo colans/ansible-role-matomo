@@ -1,0 +1,7 @@
+# Test for an Aegir Development VM (https://gitlab.com/aegir/aegir-dev-vm).
+---
+- hosts: aegir.local
+  remote_user: vagrant
+  become: true
+  roles:
+    - ansible-role-matomo
