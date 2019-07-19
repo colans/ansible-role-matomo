@@ -1,6 +1,7 @@
 # Test for an Aegir Development VM (https://gitlab.com/aegir/aegir-dev-vm).
 ---
 - hosts: aegir.local
+  strategy: debug
   remote_user: vagrant
   become: true
   roles:
