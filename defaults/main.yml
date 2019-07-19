@@ -51,7 +51,9 @@ matomo_hosted_site:
 matomo_superuser:
   name: "admin"
   password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
-  alias: "{{ matomo_superuser_name }}"
   email: "operations@example.com"
-  # As per https://github.com/matomo-org/matomo/blob/3.x-dev/plugins/UsersManager/API.php#L1317
-  token_auth: "{{ lookup('vars', 'matomo_superuser.name') ~ lookup('vars', 'ansible_date_time.iso8601_micro') ~ lookup('vars', 'matomo_superuser.password') ~ lookup('vars', 'matomo_salt') | hash('bcrypt') }}"
+matomo_superuser_alias: "{{ matomo_superuser['name'] }}"
+# As per https://github.com/matomo-org/matomo/blob/3.x-dev/plugins/UsersManager/API.php#L1317
+# TODO This isn't actually being hashed.  Check with `select login, token_auth from user;`.
+# See https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#hashing-filters ?
+matomo_superuser_token_auth: "{{ matomo_superuser.name ~ ansible_date_time.iso8601_micro ~ matomo_superuser.password ~ matomo_salt | hash('bcrypt') }}"
