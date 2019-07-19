@@ -17,12 +17,13 @@ matomo_path:
   config: "/etc/matomo/"
 
 # Web configuration
-matomo_web_config:
-  dir_main: "/etc/nginx"
-  dir_available: "{{ matomo_web_config['dir_main'] }}/sites-available"
-  dir_enabled: "{{ matomo_web_config['dir_main'] }}/sites-enabled"
-  file_regular: "{{ matomo_web_config['dir_available'] }}/matomo.conf"
-  file_link: "{{ matomo_web_config['dir_enabled'] }}/matomo.conf"
+matomo_web_config_dir_main: "/etc/nginx"
+matomo_web_config_dir:
+  available: "{{ matomo_web_config_dir_main }}/sites-available"
+  enabled: "{{ matomo_web_config_dir_main }}/sites-enabled"
+matomo_web_config_file:
+  regular: "{{ matomo_web_config_dir['available'] }}/matomo.conf"
+  link: "{{ matomo_web_config_dir['enabled'] }}/matomo.conf"
 
 # Database
 matomo_db:
