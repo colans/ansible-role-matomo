@@ -10,7 +10,7 @@ tables_prefix = "{{ matomo_db['table_prefix'] }}"
 [General]
 salt = "{{ matomo_salt }}"
 trusted_hosts[] = "{{ matomo_domain }}"
-trusted_hosts[] = "{{ matomo_hosted_site['domain'] }}"
+trusted_hosts[] = "{{ matomo_hosted_site_domain }}"
 
 [PluginsInstalled]
 PluginsInstalled[] = "Diagnostics"

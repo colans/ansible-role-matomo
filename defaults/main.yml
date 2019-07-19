@@ -38,11 +38,11 @@ matomo_salt: "{{ lookup('vars', 'matomo_max_int') | random | to_uuid | hash('bcr
 matomo_useridsalt: "{{ lookup('password', '/dev/null length=40') }}"
 
 # Hosted site
+matomo_hosted_site_domain: "example.com"
+matomo_hosted_site_protocol: "https"
 matomo_hosted_site:
   name: "Example"
-  domain: "example.com"
-  protocol: "https"
-  url: "{{ matomo_hosted_site['protocol'] }}://{{ matomo_hosted_site_domain }}/"
+  url: "{{ matomo_hosted_site_protocol }}://{{ matomo_hosted_site_domain }}/"
   timezone: "{{ matomo_timezone }}"
   ecommerce: 0
   currency: "USD"
