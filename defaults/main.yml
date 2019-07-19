@@ -13,8 +13,9 @@ matomo_https_certificate_email: "tech@example.com"
 
 ## Paths
 matomo_path:
-  docroot: "/usr/share/matomo/"
-  config: "/etc/matomo/"
+  docroot: "/usr/share/matomo"
+  config: "/etc/matomo"
+  temporary: "/tmp"
 
 # Web configuration
 matomo_web_config_dir_main: "/etc/nginx"
