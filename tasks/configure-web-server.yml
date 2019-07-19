@@ -8,7 +8,7 @@
     owner: "root"
     group: "root"
     mode: "preserve"
-    force: no
+    backup: yes
 
 - name: Enable the site
   file:
