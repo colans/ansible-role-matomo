@@ -2,7 +2,7 @@
 # defaults file for ansible-role-matomo
 
 # Architecture
-matomo_max_int: "{{ '9223372036854775807' if ansible_facts['ansible_userspace_bits'] == '64' else '2147483647' }}"
+matomo_max_int: "{{ (ansible_userspace_bits == '64') | ternary('9223372036854775807', '2147483647') }}"
 
 # General
 matomo_domain: "matomo.example.com"
