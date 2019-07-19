@@ -1,17 +1,17 @@
 ---
 # tasks file for ansible-role-matomo
 
-- name: Install the Debian package
-  import_tasks: install-debian-package.yml
+- name: Configure the Web server
+  import_tasks: configure-web-server.yml
 
 - name: Get an HTTPS certificate
   import_tasks: get-https-certificate.yml
 
-- name: Configure the Web server
-  import_tasks: configure-web-server.yml
+- name: Configure the application
+  import_tasks: configure-application.yml
 
 - name: Create the application's database
   import_tasks: create-database.yml
 
-- name: Configure the application
-  import_tasks: configure-application.yml
+- name: Install the Debian package
+  import_tasks: install-debian-package.yml
