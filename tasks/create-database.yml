@@ -5,11 +5,33 @@
   mysql_db:
     name: "{{ matomo_db['name'] }}"
     state: present
-  register: matomo_db['exists']
+  register: matomo_db_created
+
+- name: Fetch the database user's password
+  slurp:
+    src: "{{ matomo_path['config'] }}/config.ini.php"
+  register: matomo_db_password
 
 - name: Create Matomo's database user
   mysql_user:
     name: "{{ matomo_db['user'] }}"
-    password: "{{ matomo_db['password'] }}"
+    password: "{{ matomo_db_password['content'] | b64decode | regex_findall('password = \"(.+)\"') | first }}"
     state: present
     priv: "{{ matomo_db['name'] }}.*:SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,CREATE\ TEMPORARY\ TABLES,LOCK\ TABLES"
+
+- name: Copy database dump for importing into newly created DB
+  template:
+    src: "matomo.sql.j2"
+    dest: "{{ matomo_path['temporary'] }}/matomo.ansible.sql"
+    owner: "root"
+    group: "root"
+    mode: "400"
+    force: yes
+  when: matomo_db_created.changed
+
+- name: Import dump file into newly created database
+  mysql_db:
+    name: "{{ matomo_db['name'] }}"
+    state: import
+    target: "{{ matomo_path['temporary'] }}/matomo.ansible.sql"
+  when: matomo_db_created.changed
