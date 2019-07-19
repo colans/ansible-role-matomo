@@ -1,10 +1,16 @@
 ---
 # Application configurator
 
+- name: Create configuration directory for Matomo
+  file:
+    path: "{{ matomo_path['config'] }}"
+    state: directory
+    mode: '0755'
+
 - name: Inject Matomo's configuration file
   template:
     src: "config.ini.php.j2"
-    dest: "{{ matomo_path['config'] }}"
+    dest: "{{ matomo_path['config'] }}/config.ini.php"
     owner: "www-data"
     group: "www-data"
     mode: "preserve"
