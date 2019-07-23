@@ -10,29 +10,35 @@
 ##     * `wget https://raw.githubusercontent.com/matomo-org/matomo-nginx/master/sites-available/matomo.conf`
 ##   2. Replace values with variables.
 ##   3. Delete the `include ssl.conf;` line.
+##   4. Add `if` statement.
+##   5. Move `ssl` and HSTS lines to bottom of `if` statement.
 ################################################################################
 
 server {
     listen [::]:80; # remove this if you don't want Matomo to be reachable from IPv6
     listen 80;
-    server_name {{ matomo_domain }};
+
+    server_name {{ matomo_domain }}; # list all domains Matomo should be reachable from
+{% if matomo_protocol == "https" %}
+
     # Redirect all HTTP requests to HTTPS with a 301 Moved Permanently response.
     return 301 https://$host$request_uri;
 }
 server {
     listen [::]:443 ssl http2; # remove this if you don't want Matomo to be reachable from IPv6
     listen 443 ssl http2;
-    server_name {{ matomo_domain }}; # list all domains Matomo should be reachable from
-    access_log /var/log/nginx/matomo.access.log;
-    error_log /var/log/nginx/matomo.error.log;
-
-    ## uncomment if you want to enable HSTS with 6 months cache
-    ## ATTENTION: Be sure you know the implications of this change (you won't be able to disable HTTPS anymore)
-    #add_header Strict-Transport-Security max-age=15768000 always;
 
     ## replace with your SSL certificate
     ssl_certificate /etc/letsencrypt/live/{{ matomo_domain }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ matomo_domain }}/privkey.pem;
+
+    ## uncomment if you want to enable HSTS with 6 months cache
+    ## ATTENTION: Be sure you know the implications of this change (you won't be able to disable HTTPS anymore)
+    #add_header Strict-Transport-Security max-age=15768000 always;
+{% endif %}
+
+    access_log /var/log/nginx/matomo.access.log;
+    error_log /var/log/nginx/matomo.error.log;
 
     add_header Referrer-Policy origin always; # make sure outgoing links don't show the URL to the Matomo instance
     add_header X-Content-Type-Options "nosniff" always;
