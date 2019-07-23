@@ -30,6 +30,11 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: username.rolename, x: 42 }
 
+Issue Tracking
+--------------
+
+For bugs, feature requests, etc., please visit the [issue tracker](https://gitlab.com/consensus.enterprises/ansible-roles/ansible-role-matomo/-/boards).
+
 License
 -------
 
