@@ -25,6 +25,7 @@ matomo_web_config_dir:
 matomo_web_config_file:
   regular: "{{ matomo_web_config_dir['available'] }}/matomo.conf"
   link: "{{ matomo_web_config_dir['enabled'] }}/matomo.conf"
+matomo_web_config_phpfpm_mode: "port" # or "socket"
 
 # Database
 matomo_db:
