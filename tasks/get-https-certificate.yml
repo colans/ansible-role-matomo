@@ -1,7 +1,6 @@
 ---
 # HTTPS certificate getter
 
-# TODO Get this working.
 # https://github.com/felixfontein/acme-certificate
 #- name: getting certificates for webserver
 #  hosts: webserver
