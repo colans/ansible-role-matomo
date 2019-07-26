@@ -9,9 +9,9 @@ matomo_domain: "matomo.example.com"
 matomo_protocol: "https"
 matomo_url: "{{ matomo_protocol }}://{{ matomo_domain }}/"
 matomo_timezone: "America/Toronto"
-matomo_https_certificate_email: "tech@example.com"
+matomo_https_certificate_admin_email: "tech@example.com"
 
-## Paths
+# Paths
 matomo_path:
   docroot: "/usr/share/matomo"
   config: "/etc/matomo"

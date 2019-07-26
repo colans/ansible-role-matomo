@@ -1,4 +1,4 @@
-# Test for an Aegir Development VM (https://gitlab.com/aegir/aegir-dev-vm).
+# Test on an Aegir Development VM (https://gitlab.com/aegir/aegir-dev-vm).
 ---
 - hosts: aegir.local
   strategy: debug
