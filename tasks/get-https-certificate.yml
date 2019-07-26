@@ -1,62 +1,16 @@
 ---
 # HTTPS certificate getter
 
-# https://github.com/felixfontein/acme-certificate
-#- name: getting certificates for webserver
-#  hosts: webserver
-#  vars:
-#    acme_account: 'keys/acme-account.key'
-#    acme_email: 'mail@example.com'
-#    # For HTTP challenges:
-#    server_location: '/var/www/challenges/'
-#    http_challenge_user: root
-#    http_challenge_group: http
-#    http_challenge_folder_mode: "0750"
-#    http_challenge_file_mode: "0640"
-#    # For DNS challenges:
-#    dns_provider: route53
-#    aws_access_key: REPLACE_WITH_YOUR_ACCESS_KEY
-#    aws_secret_key: REPLACE_WITH_YOUR_SECRET_KEY
-#  roles:
-#    - role: acme-certificate
-#      domains: ['example.com', 'www.example.com']
-      # Use DNS challenges:
-#      challenge: dns-01
-      # The certificate files will be stored at:
-      #    keys/example.com.key  (private key)
-      #    keys/example.com.csr  (certificate signing request)
-      #    keys/example.com.pem  (certificate)
-      #    keys/example.com.cnf  (OpenSSL config for CSR creation -- can be safely deleted)
-      #    keys/example.com-chain.pem  (intermediate certificate)
-      #    keys/example.com-fullchain.pem  (certificate with intermediate certificate)
-      #    keys/example.com-root.pem  (root certificate)
-      #    keys/example.com-rootchain.pem  (intermediate certificate with root certificate)
-#    - role: acme-certificate
-#      domains: ['another.example.com']
-#      key_name: 'another.example.com-rsa'
-#      key_length: 4096
-      # Use HTTP challenges:
-#      challenge: http-01
-      # The certificate files will be stored at:
-      #    keys/another.example.com-rsa.key  (private key)
-      #    keys/another.example.com-rsa.csr  (certificate signing request)
-      #    keys/another.example.com-rsa.pem  (certificate)
-      #    keys/another.example.com-rsa.cnf  (OpenSSL config for CSR creation -- can be safely deleted)
-      #    keys/another.example.com-rsa-chain.pem  (intermediate certificate)
-      #    keys/another.example.com-rsa-fullchain.pem  (certificate with intermediate certificate)
-      #    keys/another.example.com-rsa-root.pem  (root certificate)
-      #    keys/another.example.com-rsa-rootchain.pem  (intermediate certificate with root certificate)
-#    - role: acme-certificate
-#      domains: ['another.example.com']
-#      key_name: 'another.example.com-ecc'
-#      algorithm: 'p-256'
-      # Use HTTP challenges (default for challenge is http-01).
-      # The certificate files will be stored at:
-      #    keys/another.example.com-ecc.key  (private key)
-      #    keys/another.example.com-ecc.csr  (certificate signing request)
-      #    keys/another.example.com-ecc.pem  (certificate)
-      #    keys/another.example.com-ecc.cnf  (OpenSSL config for CSR creation -- can be safely deleted)
-      #    keys/another.example.com-ecc-chain.pem  (intermediate certificate)
-      #    keys/another.example.com-ecc-fullchain.pem  (certificate with intermediate certificate)
-      #    keys/another.example.com-ecc-root.pem  (root certificate)
-      #    keys/another.example.com-ecc-rootchain.pem  (intermediate certificate with root certificate)
+- name: Run a separate role to install the HTTPS certificate
+  import_role:
+    name: geerlingguy.certbot
+  vars:
+    certbot_create_if_missing: true
+    certbot_create_method: standalone
+    certbot_admin_email: "{{ matomo_https_certificate_admin_email }}"
+    certbot_create_standalone_stop_services:
+      - nginx
+    certbot_certs:
+      - domains:
+          - "{{ matomo_domain }}"
+  when: matomo_protocol == "https"
