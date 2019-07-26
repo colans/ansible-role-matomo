@@ -30,6 +30,17 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: username.rolename, x: 42 }
 
+Testing
+-------
+
+Tests can be run like so (with more or less "v"s for verbosity):
+
+```sh
+ansible-playbook -vv --inventory TARGET_HOSTNAME, --extra-vars "VARIABLE1=VALUE1 VARIABLE2=VALUE2 ..." tests/TEST_NAME.yml
+```
+
+Feel free to add your own tests in `tests/`, using existing ones as examples.
+
 Issue Tracking
 --------------
 
