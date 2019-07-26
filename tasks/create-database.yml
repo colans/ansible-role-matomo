@@ -1,6 +1,16 @@
 ---
 # Database creator
 
+# https://www.rollnorocks.com/2018/12/ansible-python-and-mysql-untangling-the-mess/
+- name: Install Python's package manager for installing PyMySQL
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install Python's MySQL connector to use Ansbile's MySQL modules
+  pip:
+    name: PyMySQL
+
 - name: Create Matomo's MySQL database
   mysql_db:
     name: "{{ matomo_db['name'] }}"
