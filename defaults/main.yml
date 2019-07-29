@@ -49,11 +49,10 @@ matomo_hosted_site:
 matomo_hosted_site_name: "Example"
 
 # Superuser
-matomo_superuser:
-  password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
+matomo_superuser_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
 matomo_superuser_email: "operations@example.com"
 matomo_superuser_name: "admin"
 matomo_superuser_alias: "{{ matomo_superuser_name }}"
 # As per https://github.com/matomo-org/matomo/blob/3.x-dev/plugins/UsersManager/API.php#L1317
-matomo_superuser_token_auth_seed: "{{ matomo_superuser_name ~ ansible_date_time.iso8601_micro ~ matomo_superuser.password ~ matomo_salt }}"
+matomo_superuser_token_auth_seed: "{{ matomo_superuser_name ~ ansible_date_time.iso8601_micro ~ matomo_superuser_password ~ matomo_salt }}"
 matomo_superuser_token_auth: "{{ lookup('vars', 'matomo_superuser_token_auth_seed') | hash('sha512') }}"

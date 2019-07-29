@@ -990,7 +990,7 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES ('anonymous','','anonymous','anonymous@example.org','','anonymous',0,'{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}','{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}');
-INSERT INTO `user` VALUES ('{{ matomo_superuser_name }}','{{ matomo_superuser['password'] }}','{{ matomo_superuser_alias }}','{{ matomo_superuser_email }}','','{{ matomo_superuser_token_auth }}',1,'{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}','{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}');
+INSERT INTO `user` VALUES ('{{ matomo_superuser_name }}','{{ matomo_superuser_password_hashed.stdout }}','{{ matomo_superuser_alias }}','{{ matomo_superuser_email }}','','{{ matomo_superuser_token_auth }}',1,'{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}','{{ ansible_date_time.date ~ " " ~ ansible_date_time.time }}');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
