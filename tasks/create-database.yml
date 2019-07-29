@@ -17,17 +17,29 @@
     state: present
   register: matomo_db_created
 
-- name: Fetch the database user's password
+- name: Fetch the Matomo configuration file containing the database user's password
   slurp:
     src: "{{ matomo_path['config'] }}/config.ini.php"
-  register: matomo_db_password
+  register: matomo_db_password_file
+
+- name: Extract the database user's password from the Matomo configuration file
+  set_fact:
+     matomo_db_password: "{{ matomo_db_password_file['content'] | b64decode | regex_findall('password = \"(.+)\"') | first }}"
 
 - name: Create Matomo's database user
   mysql_user:
     name: "{{ matomo_db['user'] }}"
-    password: "{{ matomo_db_password['content'] | b64decode | regex_findall('password = \"(.+)\"') | first }}"
+    password: "{{ matomo_db_password }}"
     state: present
     priv: "{{ matomo_db['name'] }}.*:SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,CREATE\ TEMPORARY\ TABLES,LOCK\ TABLES"
+
+- name: Fetch results of the number of tables in the Matomo database
+  command: mysql --user={{ matomo_db['user'] }} --password={{ matomo_db_password }} --skip-column-names {{ matomo_db.name }} --execute="SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '{{ matomo_db.name }}'"
+  register: matomo_db_tables
+
+- name: Determine if the Matomo database requires an import
+  set_fact:
+     matomo_db_import_required: "{{ matomo_db_created.changed or (matomo_db_tables.stdout == '0') }}"
 
 - name: Copy database dump for importing into newly created DB
   template:
@@ -37,11 +49,11 @@
     group: "root"
     mode: "400"
     force: yes
-  when: matomo_db_created.changed
+  when: matomo_db_import_required
 
 - name: Import dump file into newly created database
   mysql_db:
     name: "{{ matomo_db['name'] }}"
     state: import
     target: "{{ matomo_path['temporary'] }}/matomo.ansible.sql"
-  when: matomo_db_created.changed
+  when: matomo_db_import_required
