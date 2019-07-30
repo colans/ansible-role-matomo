@@ -13,4 +13,6 @@
     certbot_certs:
       - domains:
           - "{{ matomo_domain }}"
+    # The Debian package already provides a cron job.
+    certbot_auto_renew: false
   when: matomo_protocol == "https"
