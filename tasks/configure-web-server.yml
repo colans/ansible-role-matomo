@@ -1,6 +1,18 @@
 ---
 # Web server configurator
 
+- name: Fetch the (possibly empty) list of PHP socket files
+  find:
+    paths: /var/run/php
+    patterns: "*.sock"
+    file_type: any
+  register: matomo_php_socket_files
+
+- name: Set the PHP socket file
+  set_fact:
+    matomo_php_socket_file: "{{ matomo_php_socket_files.files | sort(attribute='ctime', reverse=True) | map(attribute='path') | list | first }}"
+  when: matomo_php_socket_files.matched > 0
+
 - name: Inject the Matomo site's Nginx configuration
   template:
     src: "matomo.conf.j2"
