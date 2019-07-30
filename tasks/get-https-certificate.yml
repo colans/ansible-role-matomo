@@ -2,7 +2,7 @@
 # HTTPS certificate getter
 
 - name: Run a separate role to install the HTTPS certificate
-  import_role:
+  include_role:
     name: geerlingguy.certbot
   vars:
     certbot_create_if_missing: true
