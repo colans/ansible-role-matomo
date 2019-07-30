@@ -41,7 +41,7 @@
   set_fact:
      matomo_db_import_required: "{{ matomo_db_created.changed or (matomo_db_tables.stdout == '0') }}"
 
-# https://matomo.org/faq/how-to/faq_191/
+# Follow https://matomo.org/faq/how-to/faq_191/ as native hashing results in inability to login.
 - name: Hash Matomo's superuser administration password
   command: php -r 'echo password_hash(md5("{{ matomo_superuser_password }}"), PASSWORD_DEFAULT) . "\n";'
   register: matomo_superuser_password_hashed
