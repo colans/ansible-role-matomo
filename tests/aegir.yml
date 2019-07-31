@@ -1,0 +1,14 @@
+# Test on an Aegir server (https://www.aegirproject.org/).
+---
+- hosts: aegir.example.com
+  strategy: debug
+  become: true
+  roles:
+    - ansible-role-matomo
+  vars:
+    # https://www.toptechskills.com/ansible-tutorials-courses/how-to-fix-usr-bin-python-not-found-error-tutorial/
+    ansible_python_interpreter: /usr/bin/python3
+    # Main role variable settings.
+    matomo_domain: analytics.example.com
+    matomo_https_certificate_admin_email: tech@example.com
+    matomo_superuser_password: SUPER_SECRET_ADMIN_PASSWORD_FOR_THE_WEB_UI
