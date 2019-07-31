@@ -11,6 +11,13 @@ matomo_url: "{{ matomo_protocol }}://{{ matomo_domain }}/"
 matomo_timezone: "America/Toronto"
 matomo_https_certificate_admin_email: "tech@example.com"
 
+# Software sources
+matomo_debian_repository_domain: "debian.matomo.org"
+matomo_debian_repository_key_id: "1FD752571FE36FF23F78F91B81E2E78B66FED89E"
+matomo_debian_repository_key_url: "http://{{ matomo_debian_repository_domain }}/repository.gpg"
+matomo_debian_repository_url: "https://{{ matomo_debian_repository_domain }}/"
+matomo_debian_automatic_upgrades: "true"
+
 # Paths
 matomo_path:
   docroot: "/usr/share/matomo"

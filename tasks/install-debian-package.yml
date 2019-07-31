@@ -5,17 +5,17 @@
 
 - name: "Load the Matomo apt repository key"
   apt_key:
-    id: 1FD752571FE36FF23F78F91B81E2E78B66FED89E
-    url: http://debian.matomo.org/repository.gpg
+    id: "{{ matomo_debian_repository_key_id }}"
+    url: "{{ matomo_debian_repository_key_url }}"
 
 - name: "Add the Matomo repository to apt"
-  apt_repository: repo="deb https://debian.matomo.org/ piwik main"
+  apt_repository: 'repo="deb {{ matomo_debian_repository_url }} piwik main"'
 
-- name: "Enable automatic upgrades in debconf"
+- name: "Set automatic upgrades in debconf"
   debconf:
     name: matomo
     question: matomo/automatic-upgrade
-    value: true
+    value: "{{ matomo_debian_automatic_upgrades }}"
     vtype: boolean
 
 - name: "Install Matomo apt package"
