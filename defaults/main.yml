@@ -18,6 +18,7 @@ matomo_path:
   temporary: "/tmp"
 
 # Web configuration
+matomo_configure_web_server: true
 matomo_web_config_dir_main: "/etc/nginx"
 matomo_web_config_dir:
   available: "{{ matomo_web_config_dir_main }}/sites-available"

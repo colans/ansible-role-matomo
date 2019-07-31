@@ -7,6 +7,7 @@
 
 - name: Configure the Web server
   import_tasks: configure-web-server.yml
+  when: matomo_configure_web_server | bool
 
 - name: Get an HTTPS certificate
   import_tasks: get-https-certificate.yml
