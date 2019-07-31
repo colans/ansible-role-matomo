@@ -11,35 +11,49 @@ Requirements
 * MySQL (version 5.5 or greater) or MariaDB
 * A DNS record pointing to the instance (e.g. `matomo.example.com`)
 
+We'd be happy to include support for other operating systems, Web servers or anything else.  Patches welcome!
+
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+See [defaults/main.yml](https://gitlab.com/consensus.enterprises/ansible-roles/ansible-role-matomo/blob/master/defaults/main.yml) for all role variables.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+### geerlingguy.certbot
+
+[geerlingguy/certbot](https://galaxy.ansible.com/geerlingguy/certbot) is used for the HTTPS certificate management, installation and renewals.
+
+See the [default variables used](https://gitlab.com/consensus.enterprises/ansible-roles/ansible-role-matomo/blob/master/tasks/get-https-certificate.yml) when calling it.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: servers
+  become: true
+  roles:
+    - ansible-role-matomo
+  vars:
+    # https://www.toptechskills.com/ansible-tutorials-courses/how-to-fix-usr-bin-python-not-found-error-tutorial/
+    ansible_python_interpreter: /usr/bin/python3
+    # Main role variable settings.
+    matomo_domain: matomo.example.com
+    matomo_https_certificate_admin_email: tech@example.com
+    matomo_superuser_password: YOUR_SUPER_SECRET_ADMIN_PASSWORD_FOR_THE_WEB_UI
+```
 
 Testing
 -------
 
-Tests can be run like so (with more or less "v"s for verbosity):
+Tests can be run like so (with more or fewer "v"s for verbosity):
 
 ```sh
-ansible-playbook -vv --inventory TARGET_HOSTNAME, --extra-vars "VARIABLE1=VALUE1 VARIABLE2=VALUE2 ..." tests/TEST_NAME.yml
+ansible-playbook -vv --ask-become-pass --inventory TARGET_HOSTNAME, /path/to/this/role/tests/TEST_NAME.yml
 ```
 
-Feel free to add your own tests in `tests/`, using existing ones as examples.
+Feel free to add your own tests in `tests/`, using existing ones as examples.  Contributions welcome.
 
 Issue Tracking
 --------------
@@ -54,4 +68,4 @@ GNU AGPLv3
 Author Information
 ------------------
 
-Written by Colan Schwartz and other folks at Consensus Enterprises.  To contact us, please use our Web form at https://consensus.enterprises/#contact .
+Written by [Colan Schwartz](https://consensus.enterprises/team/colan/) and other folks at [Consensus Enterprises](https://consensus.enterprises/).  To contact us, please use our [Web contact form](https://consensus.enterprises/#contact).
