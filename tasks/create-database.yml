@@ -36,6 +36,8 @@
 - name: Fetch results of the number of tables in the Matomo database
   command: mysql --user={{ matomo_db['user'] }} --password={{ matomo_db_password }} --skip-column-names {{ matomo_db.name }} --execute="SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '{{ matomo_db.name }}'"
   register: matomo_db_tables
+  check_mode: no
+  changed_when: False
 
 - name: Determine if the Matomo database requires an import
   set_fact:
