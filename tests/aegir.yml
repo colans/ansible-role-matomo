@@ -6,6 +6,7 @@
   roles:
     - ansible-role-matomo
   vars:
+    # https://github.com/ansible/ansible/issues/45852
     # https://www.toptechskills.com/ansible-tutorials-courses/how-to-fix-usr-bin-python-not-found-error-tutorial/
     ansible_python_interpreter: /usr/bin/python3
     # Main role variable settings.
