@@ -29,6 +29,8 @@ server {
     listen [::]:443 ssl http2; # remove this if you don't want Matomo to be reachable from IPv6
     listen 443 ssl http2;
 
+    server_name {{ matomo_domain }}; # list all domains Matomo should be reachable from
+
     ## replace with your SSL certificate
     ssl_certificate /etc/letsencrypt/live/{{ matomo_domain }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ matomo_domain }}/privkey.pem;
