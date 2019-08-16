@@ -21,6 +21,7 @@
     group: "root"
     mode: "preserve"
     backup: yes
+  notify: "(Handler: All OSs) Reload NGINX"
 
 - name: Enable the site
   file:
