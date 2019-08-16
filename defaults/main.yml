@@ -23,6 +23,7 @@ matomo_path:
   docroot: "/usr/share/matomo"
   config: "/etc/matomo"
   temporary: "/tmp"
+matomo_geoip_data_url: "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
 
 # Web configuration
 matomo_configure_web_server: true

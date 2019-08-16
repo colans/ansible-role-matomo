@@ -1,0 +1,15 @@
+---
+
+- name: Download and extract GeoIP data file
+  unarchive:
+    src: "{{ matomo_geoip_data_url }}"
+    dest: "{{ matomo_path.temporary }}"
+    remote_src: yes
+    list_files: yes
+  register: matomo_geoip_data
+
+- name: Copy GeoIP data file into page for Matomo's use
+  copy:
+    remote_src: yes
+    src: "{{ matomo_path.temporary }}/{{ matomo_geoip_data.files | select('match', '.*mmdb') | list | first }}"
+    dest: "{{ matomo_path.docroot }}/misc"
