@@ -3,6 +3,18 @@ Consensus Enterprises' Matomo
 
 Consensus Enterprises' Ansible role for provisioning Matomo (formerly known as "Piwik").
 
+Overview
+--------
+
+This role does the following:
+
+1. Adds an Nginx site configuration.
+1. Gets an HTTPS certificate (if HTTPS support is enabled).
+1. Adds a configuration file for the application.
+1. Creates and populates the application's database.
+1. Installs the Debian package, automatically updating the database if the template is too old.
+1. Installs the recommended GeoIP data file, which can be enabled in the application's settings.
+
 Requirements
 ------------
 
