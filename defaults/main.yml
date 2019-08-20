@@ -41,6 +41,7 @@ matomo_db:
   name: "matomo"
   user: "matomo"
   table_prefix: ""
+matomo_db_server: "{{ inventory_hostname }}"
 
 # Salts
 matomo_salt: "{{ lookup('vars', 'matomo_max_int') | random | to_uuid | hash('sha512') }}"
