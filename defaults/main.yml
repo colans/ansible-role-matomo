@@ -36,12 +36,12 @@ matomo_web_config_file:
   link: "{{ matomo_web_config_dir['enabled'] }}/matomo.conf"
 
 # Database
+matomo_db_server: "{{ inventory_hostname }}"
 matomo_db:
-  host: "127.0.0.1"
+  host: "{{ (matomo_db_server == inventory_hostname) | ternary('127.0.0.1', matomo_db_server) }}"
   name: "matomo"
   user: "matomo"
   table_prefix: ""
-matomo_db_server: "{{ inventory_hostname }}"
 
 # Salts
 matomo_salt: "{{ lookup('vars', 'matomo_max_int') | random | to_uuid | hash('sha512') }}"
