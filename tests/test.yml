@@ -1,5 +1,9 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: all
+  strategy: debug
+  #remote_user: root
   roles:
-    - ansible-role-matomo
+    - consensus.matomo
+  vars:
+    matomo_domain: matomo.local
+
