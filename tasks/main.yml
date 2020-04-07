@@ -2,7 +2,7 @@
 # tasks file for ansible-role-matomo
 
 - name: Download required roles
-  local_action: command ansible-galaxy install -r ../roles/requirements.yml
+  local_action: command ansible-galaxy install -r {{ role_path }}/roles/requirements.yml
   become: false
 
 - name: Configure the Web server
