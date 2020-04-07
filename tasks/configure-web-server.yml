@@ -22,6 +22,7 @@
     mode: "preserve"
     backup: yes
   notify: "(Handler: All OSs) Reload NGINX"
+  become: true
 
 - name: Enable the site
   file:
@@ -29,3 +30,4 @@
     dest: "{{ matomo_web_config_file['link'] }}"
     state: link
   notify: "(Handler: All OSs) Reload NGINX"
+  become: true

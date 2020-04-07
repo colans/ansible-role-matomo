@@ -6,6 +6,7 @@
     path: "{{ matomo_path['config'] }}"
     state: directory
     mode: '0755'
+  become: true
 
 - name: Inject Matomo's configuration file
   template:
@@ -15,3 +16,4 @@
     group: "www-data"
     mode: "preserve"
     force: no
+  become: true

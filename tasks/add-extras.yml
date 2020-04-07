@@ -13,3 +13,4 @@
     remote_src: yes
     src: "{{ matomo_path.temporary }}/{{ matomo_geoip_data.files | select('match', '.*mmdb') | list | first }}"
     dest: "{{ matomo_path.docroot }}/misc"
+  become: true

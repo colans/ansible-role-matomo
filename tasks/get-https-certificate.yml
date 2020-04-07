@@ -15,4 +15,6 @@
           - "{{ matomo_domain }}"
     # The Debian package already provides a cron job.
     certbot_auto_renew: false
+    # This is necessary until https://github.com/geerlingguy/ansible-role-certbot/issues/105 gets fixed.
+    ansible_become: yes
   when: matomo_protocol == "https"

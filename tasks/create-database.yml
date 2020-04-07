@@ -6,11 +6,13 @@
   apt:
     name: python3-pip
     state: present
+  become: true
   delegate_to: "{{ matomo_db_server }}"
 
 - name: Install Python's MySQL connector to use Ansbile's MySQL modules
   pip:
     name: PyMySQL
+  become: true
   delegate_to: "{{ matomo_db_server }}"
 
 - name: Create Matomo's MySQL database
@@ -18,12 +20,14 @@
     name: "{{ matomo_db['name'] }}"
     state: present
   register: matomo_db_created
+  become: true
   delegate_to: "{{ matomo_db_server }}"
 
 - name: Fetch the Matomo configuration file containing the database user's password
   slurp:
     src: "{{ matomo_path['config'] }}/config.ini.php"
   register: matomo_db_password_file
+  become: true
 
 - name: Extract the database user's password from the Matomo configuration file
   set_fact:
@@ -35,6 +39,7 @@
     password: "{{ matomo_db_password }}"
     state: present
     priv: "{{ matomo_db['name'] }}.*:SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,CREATE\ TEMPORARY\ TABLES,LOCK\ TABLES"
+  become: true
   delegate_to: "{{ matomo_db_server }}"
 
 - name: Fetch results of the number of tables in the Matomo database
@@ -63,6 +68,7 @@
     mode: "400"
     force: yes
   when: matomo_db_import_required
+  become: true
   delegate_to: "{{ matomo_db_server }}"
 
 - name: Import dump file into newly created database
@@ -71,4 +77,5 @@
     state: import
     target: "{{ matomo_path['temporary'] }}/matomo.ansible.sql"
   when: matomo_db_import_required
+  become: true
   delegate_to: "{{ matomo_db_server }}"
