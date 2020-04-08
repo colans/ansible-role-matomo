@@ -23,7 +23,10 @@ matomo_path:
   docroot: "/usr/share/matomo"
   config: "/etc/matomo"
   temporary: "/tmp"
-matomo_geoip_data_url: "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
+matomo_geoip_data_month: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}"
+matomo_geoip_data_filename: "dbip-city-lite-{{ matomo_geoip_data_month }}.mmdb"
+matomo_geoip_data_compressed: "{{ matomo_geoip_data_filename }}.gz"
+matomo_geoip_data_url: "https://download.db-ip.com/free/{{ matomo_geoip_data_compressed }}"
 
 # Web configuration
 matomo_configure_web_server: true
