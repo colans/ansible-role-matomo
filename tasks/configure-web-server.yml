@@ -20,7 +20,7 @@
     owner: "root"
     group: "root"
     mode: "preserve"
-    backup: yes
+    force: true
   notify: "(Handler: All OSs) Reload NGINX"
   become: true
 
