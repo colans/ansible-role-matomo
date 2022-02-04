@@ -8,10 +8,48 @@
     file_type: any
   register: matomo_php_socket_files
 
-- name: Set the PHP socket file
+- name: Fetch the path of the first found socket file
   set_fact:
-    matomo_php_socket_file: "{{ matomo_php_socket_files.files | sort(attribute='ctime', reverse=True) | map(attribute='path') | list | first }}"
+    matomo_php_socket_file_path: "{{ matomo_php_socket_files.files | sort(attribute='ctime', reverse=True) | map(attribute='path') | list | first }}"
   when: matomo_php_socket_files.matched > 0
+
+- name: Fetch info on the found socket file
+  ansible.builtin.stat:
+    path: "{{ matomo_php_socket_file_path }}"
+  register: matomo_php_socket_files_first
+  when: matomo_php_socket_files.matched > 0
+
+- name: Assume the PHP socket file is not a symbolic link
+  set_fact:
+    matomo_php_socket_file_is_link: false
+  when: matomo_php_socket_files.matched > 0
+
+- name: Determine if the socket file is a symbolic link
+  set_fact:
+    matomo_php_socket_file_is_link: true
+  when:
+    - matomo_php_socket_files.matched > 0
+    - matomo_php_socket_files_first.stat.islnk is defined
+    - matomo_php_socket_files_first.stat.islnk
+
+- name: Determine if the symbolic link points to a real file
+  ansible.builtin.stat:
+    path: "{{ matomo_php_socket_files_first.stat.lnk_source }}"
+  register: matomo_php_socket_file_link_target
+  when: (matomo_php_socket_files.matched > 0) and matomo_php_socket_file_is_link
+
+- name: Set the PHP socket file if it's a symbolic link and the target exists
+  set_fact:
+    matomo_php_socket_file: "{{ matomo_php_socket_files_first.stat.lnk_source }}"
+  when:
+    - matomo_php_socket_files.matched > 0
+    - matomo_php_socket_file_is_link
+    - matomo_php_socket_file_link_target.stat.exists
+
+- name: Set the PHP socket file if it's a regular file
+  set_fact:
+    matomo_php_socket_file: "{{ matomo_php_socket_file_path }}"
+  when: (matomo_php_socket_files.matched > 0) and (not matomo_php_socket_file_is_link)
 
 - name: Inject the Matomo site's Nginx configuration
   template:
