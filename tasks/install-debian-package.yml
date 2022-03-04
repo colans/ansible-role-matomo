@@ -10,7 +10,7 @@
   become: true
 
 - name: "Add the Matomo repository to apt"
-  apt_repository: 'repo="deb {{ matomo_debian_repository_url }} piwik main"'
+  apt_repository: 'repo="deb {{ matomo_debian_repository_url }} matomo main"'
   become: true
 
 - name: "Set automatic upgrades in debconf"
