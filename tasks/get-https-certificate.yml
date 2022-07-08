@@ -18,3 +18,14 @@
     # This is necessary until https://github.com/geerlingguy/ansible-role-certbot/issues/105 gets fixed.
     ansible_become: yes
   when: matomo_protocol == "https"
+
+- name: Disable Nginx during certificate renewals
+  ansible.builtin.lineinfile:
+    path: "/etc/letsencrypt/renewal/{{ matomo_domain }}.conf"
+    state: present
+    line: "{{ item }}"
+  with_items:
+    - 'pre_hook = service nginx stop'
+    - 'post_hook = service nginx start'
+  become: yes
+  when: matomo_protocol == "https"
